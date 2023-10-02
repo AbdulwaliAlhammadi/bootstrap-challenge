@@ -1,60 +1,44 @@
-// variables declaration
-
-
-const product = () =>{
-    const productList = [];
-    const productOperations = {
-        addNewProduct: (productName, productDetails, productPrice = 0, productPhoto) => {
-            let Product = {
-              name: productName,
-              details: productDetails,
-              price: productPrice,
-              photo: productPhoto,
-            };
-            productList.push(Product);
-          },
-        getTotalPrice: () => {
-            let totalPrice = 0;
-            productList.forEach((product) => {
-              totalPrice += product.price;
-            });
-            return totalPrice;
-          }
-    }
-    return productOperations;
-}
-
-// functions declaration
-function addNewProduct(productName, productDetails, productPrice = 0, productPhoto) {
-  let Product = {
-    name: productName,
-    details: productDetails,
-    price: productPrice,
-    photo: productPhoto,
-  };
-  productList.push(Product);
-}
-
-function getTotalPrice() {
-  let totalPrice = 0;
-  productList.forEach((product) => {
-    totalPrice += product.price;
-  });
-  return totalPrice;
-}
-
-function findProduct(productName) {
-  const regex = new RegExp(productName, "i");
-  return productList.filter((product) => product.name.search(regex) >= 0);
-}
-
-
 const body = el("#body");
-body.classList.add('h-100')
+body.classList.add('container', 'mb-auto');
 
-const bodyTitle = `
+
+const addProductForm = `
+<div class="product-form">
+    <form id="addNewProductForm">
+        <h1 class="h3 mb-3 fw-normal">Add New Product</h1>
     
+        <div class="form-floating">
+          <input type="text" class="form-control" id="productName" placeholder="Product Name">
+          <label for="productName">Product Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="productDetails" placeholder="Product Details">
+          <label for="productDetails">Product Details</label>
+        </div>
+        <div class="form-floating">
+            <input type="number" class="form-control" id="productPrice" placeholder="Product Price">
+            <label for="productPrice">Product Price</label>
+        </div>
+        <div class="form-floating">
+            <input type="file" class="form-control" id="productImage" placeholder="Product Image" disabled>
+            <label for="productImage">Product Image</label>
+        </div>
+        
+        <button class="btn btn-dark mt-2 w-100 py-2" type="submit">Add</button>
+    </form>
+</div>
 `;
 
+renderHtml(body,addProductForm);
 
-renderHtml(body,bodyTitle)
+el(".product-form").classList.add("m-auto", "w-100");
+els(".product-form .form-floating").forEach((node) => {
+    node.classList.add("mb-3");
+})
+
+let productData = el('#addNewProductForm');
+
+el('[type=submit]').addEventListener("click", (e) => {
+    product.addNewProduct(productData[0].value, productData[1].value, productData[2].value, null);
+  });
+

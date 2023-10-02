@@ -45,3 +45,12 @@
 .footer div{
     font-size: medium!important;
 }
+
+.product-form{
+    max-width: 330px;
+    padding: 1rem;
+}
+
+.product-form form .form-floating [type=file]{
+    padding: 35px 0.75rem 26px;
+}
