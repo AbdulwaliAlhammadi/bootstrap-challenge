@@ -19,13 +19,25 @@ const renderHtml = (element, htmlString) => {
   element.innerHTML += htmlString;
 };
 
+const tryCatch = (callbackFunction) => {
+  try {
+    callbackFunction();
+  } catch (error) {
+    console.log("error: ", error);
+  } finally {
+    // console.log("finally");
+  }
+};
+
 const setStorage = (key, value) => {
-  localStorage.setItem(
-    key,
-    JSON.stringify({
-      data: value,
-    })
-  );
+  tryCatch(() => {
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        data: value,
+      })
+    );
+  });
 };
 
 const getStorage = (key) => {
@@ -34,17 +46,37 @@ const getStorage = (key) => {
   return null;
 };
 
-
 const product = (() => {
-  const productList = getStorage("products")??[]; 
+  const productList = getStorage("products") ?? [];
   const productOperations = {
-    addNewProduct: ( productName, productDetails, productPrice = 0, productPhoto ) => {
+    addNewProduct: (
+      productName,
+      productDetails,
+      productPrice = 0,
+      productPhoto,
+      eventHandler
+    ) => {
+      if (
+        !productPhoto.startsWith("data:image/png") &&
+        !productPhoto.startsWith("data:image/jpeg") &&
+        !productPhoto.startsWith("data:image/jpg")
+      )
+        productPhoto = null;
+
+      if (
+        !(productName && productDetails && productPrice)
+      ) {
+        eventHandler.preventDefault();
+        throw "Fields must me filled";
+      }
+
       let Product = {
         name: productName,
         details: productDetails,
         price: productPrice,
         photo: productPhoto,
       };
+
       productList.push(Product);
       setStorage("products", productList);
     },
@@ -65,3 +97,30 @@ const product = (() => {
   };
   return productOperations;
 })();
+
+const loadImage = (event, imgElementPara) => {
+  tryCatch(() => {
+    var file = event.target.files[0]; // Get the selected file
+
+    // Check if a file is selected
+    if (file) {
+      var allowedTypes = ["image/jpeg", "image/png"];
+      var fileType = file.type;
+
+      if (allowedTypes.includes(fileType)) {
+        var reader = new FileReader(); // Create a FileReader object
+
+        // Set up the FileReader onload event
+        reader.onload = function () {
+          var imgElement = imgElementPara;
+          imgElement.src = reader.result; // Set the src attribute of the img tag to the selected image
+        };
+
+        reader.readAsDataURL(file); // Read the selected file as a Data URL
+      } else {
+        prevImage.setAttribute("src", "#");
+        throw "Not a vaild file";
+      }
+    }
+  });
+};

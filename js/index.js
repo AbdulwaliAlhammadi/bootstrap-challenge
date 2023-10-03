@@ -12,13 +12,22 @@ const bodyTitle = `
 </section>
 `;
 
-const createProductCard = function(productName,productPrice){ 
-return `
+const createProductCard = function(productName, productDetails, productPrice, productImage){ 
+    let productTag = `
+            <span> 450x300 </span>
+            <span class="vl"></span>
+    `;
+
+    if(productImage)
+        productTag = `
+            <img src="${productImage}" alt="${productName}" class="h-100 w-100"></img>
+        `
+        
+    return `
     <div class="col">
         <div class="card h-100">
           <div class="card-div fs-1">
-            <span> 450x300 </span>
-            <span class="vl"></span>
+            ${productTag}
           </div>
           <div class="card-body">
             <h5 class="card-title fw-bold">${productName}</h5>
@@ -38,22 +47,25 @@ return `
 
 const productContainer = () =>{
     let allPCards = '';
-    let pCard =  allProducts.forEach( prod => {
-        allPCards += createProductCard(prod.name, prod.price);
+    
+    allProducts.forEach( prod => {
+        allPCards += createProductCard(prod.name, prod.details, prod.price, prod.photo);
     });
 
-    if (allPCards === ''){
+    if (!allPCards){
         return `
             <div class="h2 my-5 text-center text-danger">No Products Added Yet!</div>
         `
     }
-return `
-<div class="container text-center mb-5 mt-5">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        ${allPCards}
+
+    return `
+    <div class="container text-center mb-5 mt-5">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            ${allPCards}
+        </div>
     </div>
-</div>
-`}
+    `
+}
 
 
 renderHtml(body,bodyTitle);
