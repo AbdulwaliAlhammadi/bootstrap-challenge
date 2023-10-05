@@ -53,7 +53,7 @@ const navBarContent = `
 `;
 
 const footerContent = `
-    <footer class="footer p-4 bg-dark text-white text-center fw-bold fs-4">
+    <footer id="footer" class="footer mt-auto p-4 bg-dark text-white text-center fw-bold fs-4">
         Copyright &copy; Your Website 2023
         <div class="fs-5 fw-normal">
             Done By <span class="fst-italic fw-bolder">Abdulwali Al-Hammadi</span>
@@ -62,13 +62,36 @@ const footerContent = `
 `;
 
 const bodyContent = `
-    <div id="body">
-        
+    <div id="spinner" class="mb-auto spinner" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div id="body" class="d-none">
+      
     </div>
 `;
+
+
 
 
 renderHtml(main, navBarContent);
 renderHtml(main, bodyContent);
 renderHtml(main, footerContent);
 main.classList.add("d-flex" ,"flex-column", "vh-100");
+
+
+async function loadPage() {
+  el("#spinner").style.top = `calc(50% - ${el('#footer').offsetHeight}px + ${el('#spinner').offsetHeight}px/2 ) `;
+  let myPromise = new Promise(function (resolve) {
+    let hide = () => {
+      // el("#spinner").classList.add("d-none");
+      // el("#body").classList.remove("d-none");
+    };
+    setTimeout(function () {
+      window.onload = hide;
+      resolve(hide());
+    }, 3000);
+  });
+  await myPromise;
+}
+
+loadPage();

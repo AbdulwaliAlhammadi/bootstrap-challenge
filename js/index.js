@@ -1,3 +1,58 @@
+// const headEl = el('head');
+// const headContent = `
+// <link rel="stylesheet" href="css/bootstrap.min.css" />
+//     <link rel="stylesheet" href="css/bootstrap-icons.min.css" />
+//     <link rel="stylesheet" href="css/style.css" />
+    
+// `;
+
+// renderHtml(headEl, headContent);
+
+
+// var bootstrapLoaded = false;
+//     var commonLoaded = false;
+
+//     var bootstrapScript = document.createElement('script');
+//     bootstrapScript.src = 'js/bootstrap.bundle.min.js';
+//     bootstrapScript.onload = function() {
+//       bootstrapLoaded = true;
+//       checkLoaded();
+//     };
+//     document.head.appendChild(bootstrapScript);
+
+//     var commonScript = document.createElement('script');
+//     commonScript.src = 'js/common.js';
+//     commonScript.onload = function() {
+//       commonLoaded = true;
+//       checkLoaded();
+//     };
+//     document.head.appendChild(commonScript);
+
+//     function checkLoaded() {
+//       if (bootstrapLoaded && commonLoaded) {
+//         // All scripts are loaded successfully
+//         // showContent();
+//         console.log('sssssssss');
+        
+//       }
+//     }
+
+// const jsTags = `
+//     <script src="js/bootstrap.bundle.min.js"></script>
+//     <script src="js/common.js"></script>
+// `;
+
+// const mainEl = el('main');
+// mainEl.insertAdjacentHTML('afterend', jsTags);
+
+// const bodyTag = el('body');
+
+
+
+
+
+
+
 const body = el("#body");
 body.classList.add('mb-auto');
 
@@ -67,6 +122,6 @@ const productContainer = () =>{
     `
 }
 
-
 renderHtml(body,bodyTitle);
 renderHtml(body,productContainer());
+

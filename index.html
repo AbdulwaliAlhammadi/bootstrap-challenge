@@ -3,18 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="css/style.css" /> -->
+    <!-- <script src="js/common-spec.js"></script> -->
     <title>Product Store</title>
   </head>
   <body>
-    <main id="main">
-      
-    </main>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- <div id="spinner" class="spinner" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div> -->
+    <span class="">Loading...</span>
+    <main id="main" class=""></main>
+
+    <!-- <script>
+      async function loadPage() {
+        let myPromise = new Promise(function (resolve) {
+          let hide = () => {
+            el("#spinner").classList.add("d-none");
+            el("#main").classList.remove("d-none");
+          };
+          setTimeout(function () {
+            window.onload = hide;
+            resolve(hide());
+          }, 3000);
+        });
+        await myPromise;
+      }
+
+      loadPage();
+
+      // window.onload = () => {
+      //   setTimeout(() => {
+      //     el("#spinner").classList.add("d-none");
+      //     el("#main").classList.remove("d-none");
+      //   }, 1000);
+      // };
+    </script> -->
+    <!-- <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/common-spec.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/common.js"></script>-->
+    <script>
+      var bootstrapLoaded = false;
+      var commonLoaded = false;
+
+      const appendScript = function (scriptType, scriptData) {
+        let scriptElement = document.createElement(scriptType);
+
+        scriptData.forEach(element => {
+          scriptElement.setAttribute(element.attribute, element.value);
+        });
+        // scriptElement.onload = function () {
+        //   bootstrapLoaded = true;
+        //   // checkLoaded();
+        // };
+        document.head.appendChild(scriptElement);
+      };
+
+      appendScript("link", [{attribute: "rel", value: "stylesheet"}, {attribute: "href", value: "css/bootstrap.min.css"}]);
+      appendScript("link", [{attribute: "rel", value: "stylesheet"}, {attribute: "href", value: "css/bootstrap-icons.min.css"}]);
+      appendScript("link", [{attribute: "rel", value: "stylesheet"}, {attribute: "href", value: "css/style.css"}]);
+
+      appendScript("script", [{attribute: "src", value: "js/bootstrap.bundle.min.js"}]);
+      appendScript("script", [{attribute: "src", value: "js/common-spec.js"}]);
+      appendScript("script", [{attribute: "src", value: "js/common.js"}]);
+      appendScript("script", [{attribute: "src", value: "js/index.js"}]);
+
+    </script>
   </body>
 </html>
