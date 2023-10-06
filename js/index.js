@@ -30,10 +30,18 @@ const createProductCard = function (
     <div class="col product-item">
         <div class="card h-100">
           <div class="card-div fs-1">
+            <span class="vl badge text-bg-dark sale d-none">Sale</span>
             ${productTag}
           </div>
           <div class="card-body">
             <h5 class="card-title fw-bold product-name">${productName}</h5>
+            <div id="starRate" class="text-warning pb-2 d-none">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                <i class="bi bi-star"></i>
+            </div>
             <p class="card-text">$${productPrice}</p>
           </div>
           <div class="card-footer">
@@ -80,8 +88,11 @@ renderHtml(body, productContainer(allProducts));
 const chechDisabledBtn = (checkAddBtns) => {
   checkAddBtns.forEach((btn) => {
     let productCnt = cart.getCartProductsById(btn.value).length;
+    let saleTag;
     if (productCnt != 0) {
       btn.classList.add("disabled", "text-black-50", "border");
+      saleTag = btn.parentElement.parentElement.firstElementChild.firstElementChild;
+      saleTag.classList.remove('d-none');
     }
   });
 };
@@ -105,7 +116,6 @@ addBtns.forEach((btn) => {
       cart.add(btn.value);
       updateHtml(el("#cartCnt"), cart.getCount());
     }
-    // btn.classList.add("disabled", "text-black-50", "border");
     chechDisabledBtn(addBtns);
   });
 });

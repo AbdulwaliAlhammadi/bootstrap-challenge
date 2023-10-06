@@ -104,7 +104,7 @@ const product = (() => {
 const cart = (() => {
   let cartProducts = getStorage("cartProducts") ?? [];
   const cartOperations = {
-    add: (productId, productCnt = 1) => {
+    add: (productId, productCnt = 1, productRate = 0) => {
       cartProducts.push({ pid: productId, pCnt: productCnt });
       setStorage("cartProducts", cartProducts);
     },

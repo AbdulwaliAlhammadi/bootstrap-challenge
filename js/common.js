@@ -3,7 +3,7 @@ const main = el("#main");
 const navBarContent = `
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container container-fluid">
-    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    <a class="navbar-brand" href="index.html">Product Store</a>
     <div>
       <button 
         id="search-btn"
@@ -38,7 +38,7 @@ const navBarContent = `
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+          <a class="nav-link" aria-current="page" href="index.html">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="add-product.html">Add Product</a>
@@ -54,10 +54,10 @@ const navBarContent = `
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Shop
+            More
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Shop 1</a></li>
+            <li><a class="dropdown-item" href="cart.html">My Cart</a></li>
             <li><a class="dropdown-item" href="#">Shop 2</a></li>
             <li><a class="dropdown-item" href="#">Shop 3</a></li>
           </ul>
@@ -65,7 +65,7 @@ const navBarContent = `
       </ul>
       <div class="ml-auto">
        
-        <button type="button" class="btn btn-outline-dark">
+        <button id="cartBtn" type="button" class="btn btn-outline-dark">
           <i class="bi bi-cart-fill"></i> Cart
           <span id="cartCnt" class="badge text-bg-secondary">0</span>
         </button>
@@ -113,6 +113,23 @@ el('#search-btn').addEventListener('click', () => {
 });
 
 updateHtml(el('#cartCnt'),cart.getCount());
+
+els('ul.navbar-nav li a').forEach((linkEl)=>{
+  let currentHref = window.location.pathname.slice(1);
+  if (currentHref == linkEl.getAttribute('href')){
+    linkEl.classList.add('active');
+    let dropList = el('a.dropdown-item.active');
+    if (dropList !== null)
+      dropList.closest('.dropdown').firstElementChild.classList.add('active');
+  }
+  // console.log(linkEl)
+});
+
+const cartBtn = el('#cartBtn');
+
+cartBtn.addEventListener('click', ()=>{
+  window.location.href = 'cart.html';
+})
 
 // async function loadPage() {
 //   el("#spinner").style.top = `calc(50% - 120px / 2 - 48px  ) `;

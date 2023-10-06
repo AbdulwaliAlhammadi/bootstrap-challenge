@@ -125,3 +125,13 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
+
+button.hover{
+    color: var(--bs-btn-hover-color);
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
+}
+
+.dropdown-item.active, .dropdown-item:active{
+    background-color: var(--bs-navbar-active-color);
+}
