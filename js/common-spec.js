@@ -19,6 +19,10 @@ const renderHtml = (element, htmlString) => {
   element.innerHTML += htmlString;
 };
 
+const updateHtml = (element, htmlString) => {
+  element.innerHTML = htmlString;
+};
+
 const tryCatch = (callbackFunction) => {
   try {
     callbackFunction();
@@ -63,14 +67,13 @@ const product = (() => {
       )
         productPhoto = null;
 
-      if (
-        !(productName && productDetails && productPrice)
-      ) {
+      if (!(productName && productDetails && productPrice)) {
         eventHandler.preventDefault();
         throw "Fields must me filled";
       }
 
       let Product = {
+        id: productList.length + 1,
         name: productName,
         details: productDetails,
         price: productPrice,
@@ -90,12 +93,33 @@ const product = (() => {
       });
       return totalPrice;
     },
-    findProduct: (productName) => {
+    getProductsByName: (productName) => {
       const regex = new RegExp(productName, "i");
       return productList.filter((product) => product.name.search(regex) >= 0);
     },
   };
   return productOperations;
+})();
+
+const cart = (() => {
+  let cartProducts = getStorage("cartProducts") ?? [];
+  const cartOperations = {
+    add: (productId, productCnt = 1) => {
+      cartProducts.push({ pid: productId, pCnt: productCnt });
+      setStorage("cartProducts", cartProducts);
+    },
+    getAllCartProducts: () => {
+      return cartProducts;
+    },
+    getCount: () => {
+      return cartProducts.length;
+    },
+    getCartProductsById: (productId) => {
+      const regex = new RegExp(productId, "i");
+      return cartProducts.filter((cartProduct) => cartProduct.pid == productId);
+    },
+  };
+  return cartOperations;
 })();
 
 const loadImage = (event, imgElementPara) => {

@@ -1,7 +1,3 @@
-const body = el("#body");
-body.classList.add('container', 'mb-auto');
-
-
 const addProductForm = `
 
 <div class="product-form">
@@ -66,7 +62,7 @@ productForm.addEventListener("submit", (event) => {
         el('[type=submit]').innerHTML = 'Add';
 
         let successAlert = `
-        <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert" id="successAlert">
+        <div class="container alert alert-success mt-3 alert-dismissible fade show" role="alert" id="successAlert">
             New Product Added Successfully!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

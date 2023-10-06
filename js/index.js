@@ -1,61 +1,3 @@
-// const headEl = el('head');
-// const headContent = `
-// <link rel="stylesheet" href="css/bootstrap.min.css" />
-//     <link rel="stylesheet" href="css/bootstrap-icons.min.css" />
-//     <link rel="stylesheet" href="css/style.css" />
-    
-// `;
-
-// renderHtml(headEl, headContent);
-
-
-// var bootstrapLoaded = false;
-//     var commonLoaded = false;
-
-//     var bootstrapScript = document.createElement('script');
-//     bootstrapScript.src = 'js/bootstrap.bundle.min.js';
-//     bootstrapScript.onload = function() {
-//       bootstrapLoaded = true;
-//       checkLoaded();
-//     };
-//     document.head.appendChild(bootstrapScript);
-
-//     var commonScript = document.createElement('script');
-//     commonScript.src = 'js/common.js';
-//     commonScript.onload = function() {
-//       commonLoaded = true;
-//       checkLoaded();
-//     };
-//     document.head.appendChild(commonScript);
-
-//     function checkLoaded() {
-//       if (bootstrapLoaded && commonLoaded) {
-//         // All scripts are loaded successfully
-//         // showContent();
-//         console.log('sssssssss');
-        
-//       }
-//     }
-
-// const jsTags = `
-//     <script src="js/bootstrap.bundle.min.js"></script>
-//     <script src="js/common.js"></script>
-// `;
-
-// const mainEl = el('main');
-// mainEl.insertAdjacentHTML('afterend', jsTags);
-
-// const bodyTag = el('body');
-
-
-
-
-
-
-
-const body = el("#body");
-body.classList.add('mb-auto');
-
 const allProducts = product.getAllProducts();
 
 const bodyTitle = `
@@ -67,61 +9,103 @@ const bodyTitle = `
 </section>
 `;
 
-const createProductCard = function(productName, productDetails, productPrice, productImage){ 
-    let productTag = `
+const createProductCard = function (
+  productId,
+  productName,
+  productDetails,
+  productPrice,
+  productImage
+) {
+  let productTag = `
             <span> 450x300 </span>
             <span class="vl"></span>
     `;
 
-    if(productImage)
-        productTag = `
+  if (productImage)
+    productTag = `
             <img src="${productImage}" alt="${productName}" class="h-100 w-100"></img>
-        `
-        
-    return `
-    <div class="col">
+        `;
+
+  return `
+    <div class="col product-item">
         <div class="card h-100">
           <div class="card-div fs-1">
             ${productTag}
           </div>
           <div class="card-body">
-            <h5 class="card-title fw-bold">${productName}</h5>
+            <h5 class="card-title fw-bold product-name">${productName}</h5>
             <p class="card-text">$${productPrice}</p>
           </div>
           <div class="card-footer">
-            <button type="button" class="btn btn-outline-dark">
+            <button type="button" class="btn btn-outline-dark" value="${productId}">
               Add to cart
             </button>
           </div>
         </div>
     </div>
-`
-}
+`;
+};
 
+const productContainer = (allProd) => {
+  let allPCards = "";
 
+  allProd.forEach((prod) => {
+    allPCards += createProductCard(
+      prod.id,
+      prod.name,
+      prod.details,
+      prod.price,
+      prod.photo
+    );
+  });
 
-const productContainer = () =>{
-    let allPCards = '';
-    
-    allProducts.forEach( prod => {
-        allPCards += createProductCard(prod.name, prod.details, prod.price, prod.photo);
-    });
-
-    if (!allPCards){
-        return `
-            <div class="h2 my-5 text-center text-danger">No Products Added Yet!</div>
-        `
-    }
-
+  if (!allPCards) {
     return `
-    <div class="container text-center mb-5 mt-5">
+            <div class="h2 my-5 text-center text-danger">No Products Found!</div>
+        `;
+  }
+
+  return `
+    <div class="container text-center mb-5 mt-5 product-container">
         <div class="row row-cols-1 row-cols-md-4 g-4">
             ${allPCards}
         </div>
     </div>
-    `
-}
+    `;
+};
 
-renderHtml(body,bodyTitle);
-renderHtml(body,productContainer());
+renderHtml(body, bodyTitle);
+renderHtml(body, productContainer(allProducts));
 
+const chechDisabledBtn = (checkAddBtns) => {
+  checkAddBtns.forEach((btn) => {
+    let productCnt = cart.getCartProductsById(btn.value).length;
+    if (productCnt != 0) {
+      btn.classList.add("disabled", "text-black-50", "border");
+    }
+  });
+};
+
+const searchEl = el("#searchInput");
+const productContainerDiv = el(".product-container");
+let addBtns = els(".product-container .card-footer>button");
+chechDisabledBtn(addBtns);
+
+searchEl.addEventListener("input", () => {
+  const fetchedProducts = product.getProductsByName(searchEl.value);
+  updateHtml(productContainerDiv, productContainer(fetchedProducts));
+  addBtns = els(".product-container .card-footer>button");
+  chechDisabledBtn(addBtns);
+});
+
+addBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    let productCnt = cart.getCartProductsById(btn.value).length;
+    if (productCnt == 0) {
+      cart.add(btn.value);
+      updateHtml(el("#cartCnt"), cart.getCount());
+    }
+    // btn.classList.add("disabled", "text-black-50", "border");
+    chechDisabledBtn(addBtns);
+  });
+});
