@@ -29,19 +29,19 @@ const addProductForm = `
 
 renderHtml(body,addProductForm);
 
-el(".product-form").classList.add("m-auto", "w-100");
-els(".product-form .form-floating").forEach((node) => {
+el(document, '.product-form').classList.add("m-auto", "w-100");
+els(document, ".product-form .form-floating").forEach((node) => {
     node.classList.add("mb-3");
 })
 
-let prevImage = el('#previewProductImage');
-el('#productImagePath').addEventListener('change', (event)=>{ 
+let prevImage = el(document, '#previewProductImage');
+el(document, '#productImagePath').addEventListener('change', (event)=>{ 
     loadImage(event, prevImage);
 });
 
-let productForm = el('#addNewProductForm');
+let productForm = el(document, '#addNewProductForm');
 
-el('[type=submit]').addEventListener("click", (event) => {
+el(document, '[type=submit]').addEventListener("click", (event) => {
     let productImg = prevImage.getAttribute('src');
     product.addNewProduct(productForm[0].value, productForm[1].value, productForm[2].value, productImg, event);
   });
@@ -50,16 +50,16 @@ el('[type=submit]').addEventListener("click", (event) => {
 productForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    el('[type=submit]').classList.add('disabled');
+    el(document, '[type=submit]').classList.add('disabled');
     
-    el('[type=submit]').innerHTML = `
+    el(document, '[type=submit]').innerHTML = `
     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
     <span role="status">Saving...</span>
     `;
 
     setTimeout(()=>{
-        el('[type=submit]').classList.remove('disabled');
-        el('[type=submit]').innerHTML = 'Add';
+        el(document, '[type=submit]').classList.remove('disabled');
+        el(document, '[type=submit]').innerHTML = 'Add';
 
         let successAlert = `
         <div class="container alert alert-success mt-3 alert-dismissible fade show" role="alert" id="successAlert">
@@ -67,9 +67,9 @@ productForm.addEventListener("submit", (event) => {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         `;
-        el(".product-form").insertAdjacentHTML('beforebegin', successAlert);
+        el(document, '.product-form').insertAdjacentHTML('beforebegin', successAlert);
 
-        els('#addNewProductForm input').forEach((input)=>{
+        els(document, '#addNewProductForm input').forEach((input)=>{
             input.value='';
         });
         prevImage.setAttribute("src", "#");

@@ -3,7 +3,7 @@
 }
 
 .btn-outline-dark i::before {
-  margin: 0px 5px 0px 0px;
+  /* margin: 0px 5px 0px 0px; */
 }
 
 .btn-outline-dark span {
@@ -33,7 +33,7 @@
 }
 
 .sale {
-  font-size: initial;
+  font-size: 1rem;
   position: absolute;
   right: 5px;
   top: 5px;
@@ -134,4 +134,10 @@ button.hover{
 
 .dropdown-item.active, .dropdown-item:active{
     background-color: var(--bs-navbar-active-color);
+}
+
+@media (max-width: 991px){
+    .navbar-expand-lg .cart-toggler{
+        display: none;
+    }
 }

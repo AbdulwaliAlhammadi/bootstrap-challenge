@@ -97,15 +97,15 @@ const chechDisabledBtn = (checkAddBtns) => {
   });
 };
 
-const searchEl = el("#searchInput");
-const productContainerDiv = el(".product-container");
-let addBtns = els(".product-container .card-footer>button");
+const searchEl = el(document, '#searchInput');
+const productContainerDiv = el(document, '.product-container');
+let addBtns = els(document, ".product-container .card-footer>button");
 chechDisabledBtn(addBtns);
 
 searchEl.addEventListener("input", () => {
   const fetchedProducts = product.getProductsByName(searchEl.value);
   updateHtml(productContainerDiv, productContainer(fetchedProducts));
-  addBtns = els(".product-container .card-footer>button");
+  addBtns = els(document, ".product-container .card-footer>button");
   chechDisabledBtn(addBtns);
 });
 
@@ -114,7 +114,7 @@ addBtns.forEach((btn) => {
     let productCnt = cart.getCartProductsById(btn.value).length;
     if (productCnt == 0) {
       cart.add(btn.value);
-      updateHtml(el("#cartCnt"), cart.getCount());
+      updateCnt();
     }
     chechDisabledBtn(addBtns);
   });

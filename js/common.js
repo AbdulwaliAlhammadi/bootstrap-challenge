@@ -1,10 +1,17 @@
-const main = el("#main");
+const main = el(document, '#main');
 
 const navBarContent = `
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary my-1">
   <div class="container container-fluid">
     <a class="navbar-brand" href="index.html">Product Store</a>
     <div>
+      <button id="cartBtn" type="button" class="navbar-toggler btn btn-outline-dark position-relative py-2">
+        <i class="bi bi-cart-fill"></i>
+        <span id="cartCnt"  class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+          0
+          <span class="visually-hidden">cart count</span>
+        </span>
+      </button>
       <button 
         id="search-btn"
         class="navbar-toggler py-2 btn btn-outline-dark"
@@ -63,13 +70,12 @@ const navBarContent = `
           </ul>
         </li>
       </ul>
-      <div class="ml-auto">
-       
+      <div class="ml-auto cart-toggler">
         <button id="cartBtn" type="button" class="btn btn-outline-dark">
           <i class="bi bi-cart-fill"></i> Cart
-          <span id="cartCnt" class="badge text-bg-secondary">0</span>
+          <span id="cartCnt" class="badge bg-danger">0</span>
         </button>
-      </div>
+    </div>
     </div>
   </div>
 </nav>
@@ -105,40 +111,47 @@ renderHtml(main, navBarContent);
 renderHtml(main, bodyContent);
 renderHtml(main, footerContent);
 main.classList.add("d-flex" ,"flex-column", "vh-100");
-const body = el('#body');
+const body = el(document, '#body');
 
 
-el('#search-btn').addEventListener('click', () => {
-  el('#searchInput').focus();
+el(document, '#search-btn').addEventListener('click', () => {
+  el(document, '#searchInput').focus();
 });
 
-updateHtml(el('#cartCnt'),cart.getCount());
-
-els('ul.navbar-nav li a').forEach((linkEl)=>{
+els(document, 'ul.navbar-nav li a').forEach((linkEl)=>{
   let currentHref = window.location.pathname.slice(1);
   if (currentHref == linkEl.getAttribute('href')){
     linkEl.classList.add('active');
-    let dropList = el('a.dropdown-item.active');
+    let dropList = el(document, 'a.dropdown-item.active');
     if (dropList !== null)
       dropList.closest('.dropdown').firstElementChild.classList.add('active');
   }
   // console.log(linkEl)
 });
 
-const cartBtn = el('#cartBtn');
+const cartBtns = els(document, '#cartBtn');
 
-cartBtn.addEventListener('click', ()=>{
-  window.location.href = 'cart.html';
-})
+const updateCnt = ()=>{
+  cartBtns.forEach((cartBtn)=>{
+    updateHtml(el(cartBtn,'span'), cart.getCount());
+    cartBtn.addEventListener('click', ()=>{
+      window.location.href = 'cart.html';
+    });
+  });
+}
+
+updateCnt();
+
+
 
 // async function loadPage() {
-//   el("#spinner").style.top = `calc(50% - 120px / 2 - 48px  ) `;
-//   el(".spinner").style.top = `calc(50% - 24px / 2 - 48px  ) `;
+//   el(document, '#spinner').style.top = `calc(50% - 120px / 2 - 48px  ) `;
+//   el(document, '.spinner').style.top = `calc(50% - 24px / 2 - 48px  ) `;
 //   let myPromise = new Promise(function (resolve) {
 //     let hide = () => {
-//       el("#spinner").classList.add("d-none");
-//       el(".spinner").classList.add("d-none");
-//       el("").classList.remove("d-none");
+//       el(document, '#spinner').classList.add("d-none");
+//       el(document, '.spinner').classList.add("d-none");
+//       el(document, '').classList.remove("d-none");
 //     };
 //     setTimeout(function () {
 //       window.onload = hide;
@@ -148,5 +161,7 @@ cartBtn.addEventListener('click', ()=>{
 //   await myPromise;
 // }
 
-// el("#body").classList.add("d-none");
+// el(document, '#body').classList.add("d-none");
 // loadPage();
+
+
