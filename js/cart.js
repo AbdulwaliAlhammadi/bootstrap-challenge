@@ -93,7 +93,7 @@ const cartDetails = `
             class="d-none d-lg-block col-lg-2"
             style="font-size: 11px"
           >
-            <span style="font-size: 17px"> $100</span>
+            <span style="font-size: 17px">$200</span>
           </div>
           <div
             class="d-none d-lg-block col-lg-1"

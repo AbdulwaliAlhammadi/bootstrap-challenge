@@ -27,51 +27,56 @@ const addProductForm = `
 </div>
 `;
 
-renderHtml(body,addProductForm);
+renderHtml(body, addProductForm);
 
-el(document, '.product-form').classList.add("m-auto", "w-100");
-els(document, ".product-form .form-floating").forEach((node) => {
-    node.classList.add("mb-3");
-})
-
-let prevImage = el(document, '#previewProductImage');
-el(document, '#productImagePath').addEventListener('change', (event)=>{ 
-    loadImage(event, prevImage);
+el(".product-form").classList.add("m-auto", "w-100");
+els(".product-form .form-floating").forEach((node) => {
+  node.classList.add("mb-3");
 });
 
-let productForm = el(document, '#addNewProductForm');
+let prevImage = el("#previewProductImage");
+el("#productImagePath").addEventListener("change", async (event) => {
+  await loadImage(event, prevImage);
+});
 
-el(document, '[type=submit]').addEventListener("click", (event) => {
-    let productImg = prevImage.getAttribute('src');
-    product.addNewProduct(productForm[0].value, productForm[1].value, productForm[2].value, productImg, event);
-  });
+let productForm = el("#addNewProductForm");
 
-  
+el("[type=submit]").addEventListener("click", (event) => {
+  let productImg = prevImage.getAttribute("src");
+  product.addNewProduct(
+    productForm[0].value,
+    productForm[1].value,
+    productForm[2].value,
+    productImg,
+    event
+  );
+});
+
 productForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    el(document, '[type=submit]').classList.add('disabled');
-    
-    el(document, '[type=submit]').innerHTML = `
+  el("[type=submit]").classList.add("disabled");
+
+  el("[type=submit]").innerHTML = `
     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
     <span role="status">Saving...</span>
     `;
 
-    setTimeout(()=>{
-        el(document, '[type=submit]').classList.remove('disabled');
-        el(document, '[type=submit]').innerHTML = 'Add';
+  setTimeout(() => {
+    el("[type=submit]").classList.remove("disabled");
+    el("[type=submit]").innerHTML = "Add";
 
-        let successAlert = `
+    let successAlert = `
         <div class="container alert alert-success mt-3 alert-dismissible fade show" role="alert" id="successAlert">
             New Product Added Successfully!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         `;
-        el(document, '.product-form').insertAdjacentHTML('beforebegin', successAlert);
+    el(".product-form").insertAdjacentHTML("beforebegin", successAlert);
 
-        els(document, '#addNewProductForm input').forEach((input)=>{
-            input.value='';
-        });
-        prevImage.setAttribute("src", "#");
-    },1000);
-})
+    els("#addNewProductForm input").forEach((input) => {
+      input.value = "";
+    });
+    prevImage.setAttribute("src", "#");
+  }, 1000);
+});

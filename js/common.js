@@ -1,4 +1,4 @@
-const main = el(document, '#main');
+const main = el("#main");
 
 const navBarContent = `
 <nav class="navbar navbar-expand-lg bg-body-tertiary my-1">
@@ -81,7 +81,6 @@ const navBarContent = `
 </nav>
 `;
 
-
 const footerContent = `
     <footer id="footer" class="footer mt-auto p-4 bg-dark text-white text-center fw-bold fs-4">
         Copyright &copy; Your Website 2023
@@ -90,7 +89,6 @@ const footerContent = `
         </div>
     </footer>
 `;
-
 
 let bodySpinner = `
     <div id="spinner" class="mb-auto spinner" role="status">
@@ -104,54 +102,51 @@ const bodyContent = `
     </div>
 `;
 
-
-
 renderHtml(main, navBarContent);
 // renderHtml(main, bodySpinner);
 renderHtml(main, bodyContent);
 renderHtml(main, footerContent);
-main.classList.add("d-flex" ,"flex-column", "vh-100");
-const body = el(document, '#body');
+main.classList.add("d-flex", "flex-column", "vh-100");
+const body = el("#body");
 
-
-el(document, '#search-btn').addEventListener('click', () => {
-  el(document, '#searchInput').focus();
+el("#search-btn").addEventListener("click", () => {
+  el("#searchInput").focus();
 });
 
-els(document, 'ul.navbar-nav li a').forEach((linkEl)=>{
-  let currentHref = window.location.pathname.slice(1);
-  if (currentHref == linkEl.getAttribute('href')){
-    linkEl.classList.add('active');
-    let dropList = el(document, 'a.dropdown-item.active');
+els("ul.navbar-nav li a").forEach((linkEl) => {
+  const url = window.location.href;
+  const fileName = url.substring(url.lastIndexOf("/") + 1);
+  const currentHref = fileName.split("?")[0] || "index.html";
+  if (currentHref == linkEl.getAttribute("href")) {
+    linkEl.classList.add("active");
+    let dropList = el("a.dropdown-item.active");
     if (dropList !== null)
-      dropList.closest('.dropdown').firstElementChild.classList.add('active');
+      dropList.closest(".dropdown").firstElementChild.classList.add("active");
   }
   // console.log(linkEl)
 });
 
-const cartBtns = els(document, '#cartBtn');
+const cartBtns = els("#cartBtn");
 
-const updateCnt = ()=>{
-  cartBtns.forEach((cartBtn)=>{
-    updateHtml(el(cartBtn,'span'), cart.getCount());
-    cartBtn.addEventListener('click', ()=>{
-      window.location.href = 'cart.html';
+const updateCnt = () => {
+  cartBtns.forEach((cartBtn) => {
+    updateHtml(el("span",cartBtn), cart.getCount());
+    cartBtn.addEventListener("click", () => {
+      window.location.href = "cart.html";
     });
   });
-}
+};
 
 updateCnt();
 
-
-
 // async function loadPage() {
-//   el(document, '#spinner').style.top = `calc(50% - 120px / 2 - 48px  ) `;
-//   el(document, '.spinner').style.top = `calc(50% - 24px / 2 - 48px  ) `;
+//    el( '#spinner').style.top = `calc(50% - 120px / 2 - 48px  ) `;
+//    el( '.spinner').style.top = `calc(50% - 24px / 2 - 48px  ) `;
 //   let myPromise = new Promise(function (resolve) {
 //     let hide = () => {
-//       el(document, '#spinner').classList.add("d-none");
-//       el(document, '.spinner').classList.add("d-none");
-//       el(document, '').classList.remove("d-none");
+//        el( '#spinner').classList.add("d-none");
+//        el( '.spinner').classList.add("d-none");
+//        el( '').classList.remove("d-none");
 //     };
 //     setTimeout(function () {
 //       window.onload = hide;
@@ -161,7 +156,5 @@ updateCnt();
 //   await myPromise;
 // }
 
-// el(document, '#body').classList.add("d-none");
+//  el( '#body').classList.add("d-none");
 // loadPage();
-
-

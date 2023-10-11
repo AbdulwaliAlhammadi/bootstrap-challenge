@@ -1,5 +1,33 @@
 const allProducts = product.getAllProducts();
 
+const chechDisabledBtn = (btn) => {
+  let productCnt = cart.getCartProductsById(btn.value).length;
+  let saleTag;
+  if (productCnt != 0) {
+    btn.classList.add("disabled", "text-black-50", "border");
+    saleTag =
+      btn.parentElement.parentElement.firstElementChild.firstElementChild;
+    saleTag.classList.remove("d-none");
+  }
+};
+
+const renderProducts = (products) => {
+  const productContainerDiv = el("#product-container", body);
+  updateHtml(productContainerDiv, productContainer(products));
+  const addBtns = els(".product-container .card-footer>button");
+  addBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let productCnt = cart.getCartProductsById(btn.value).length;
+      if (productCnt == 0) {
+        cart.add(btn.value);
+        updateCnt();
+      }
+      chechDisabledBtn(btn);
+    });
+    chechDisabledBtn(btn);
+  });
+};
+
 const bodyTitle = `
 <section>
   <div class="p-5 mb-2 bg-dark text-white text-center">
@@ -83,39 +111,11 @@ const productContainer = (allProd) => {
 };
 
 renderHtml(body, bodyTitle);
-renderHtml(body, productContainer(allProducts));
+renderHtml(body, '<div id="product-container"></div>');
 
-const chechDisabledBtn = (checkAddBtns) => {
-  checkAddBtns.forEach((btn) => {
-    let productCnt = cart.getCartProductsById(btn.value).length;
-    let saleTag;
-    if (productCnt != 0) {
-      btn.classList.add("disabled", "text-black-50", "border");
-      saleTag = btn.parentElement.parentElement.firstElementChild.firstElementChild;
-      saleTag.classList.remove('d-none');
-    }
-  });
-};
+renderProducts(allProducts);
 
-const searchEl = el(document, '#searchInput');
-const productContainerDiv = el(document, '.product-container');
-let addBtns = els(document, ".product-container .card-footer>button");
-chechDisabledBtn(addBtns);
-
-searchEl.addEventListener("input", () => {
-  const fetchedProducts = product.getProductsByName(searchEl.value);
-  updateHtml(productContainerDiv, productContainer(fetchedProducts));
-  addBtns = els(document, ".product-container .card-footer>button");
-  chechDisabledBtn(addBtns);
-});
-
-addBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    let productCnt = cart.getCartProductsById(btn.value).length;
-    if (productCnt == 0) {
-      cart.add(btn.value);
-      updateCnt();
-    }
-    chechDisabledBtn(addBtns);
-  });
+el("#searchInput").addEventListener("input", () => {
+  const fetchedProducts = product.getProductsByName(el("#searchInput").value);
+  renderProducts(fetchedProducts);
 });

@@ -5,7 +5,7 @@
  * @param {string} element - The CSS selector of the element to retrieve.
  * @returns {Element|null} The first element that matches the selector, or null if no element is found.
  */
-const el = (parentElement, element) => parentElement.querySelector(element);
+const el = (element, parentElement = document) => parentElement.querySelector(element);
 
 /**
  * Retrieves a list of elements that match the specified selector.
@@ -13,7 +13,7 @@ const el = (parentElement, element) => parentElement.querySelector(element);
  * @param {string} elements - The CSS selector of the elements to retrieve.
  * @returns {NodeList} A list of elements that match the selector.
  */
-const els = (parentElement, elements) => parentElement.querySelectorAll(elements);
+const els = (elements, parentElement = document) => parentElement.querySelectorAll(elements);
 
 const renderHtml = (element, htmlString) => {
   element.innerHTML += htmlString;
@@ -44,10 +44,10 @@ const setStorage = (key, value) => {
   });
 };
 
-const getStorage = (key) => {
+const getStorage = (key, initalValue = null) => {
   const data = localStorage.getItem(key);
   if (data) return JSON.parse(data).data;
-  return null;
+  return initalValue;
 };
 
 const product = (() => {
@@ -123,7 +123,7 @@ const cart = (() => {
 })();
 
 const loadImage = (event, imgElementPara) => {
-  tryCatch(() => {
+  return new Promise((resolve, reject) => {
     var file = event.target.files[0]; // Get the selected file
 
     // Check if a file is selected
@@ -133,17 +133,16 @@ const loadImage = (event, imgElementPara) => {
 
       if (allowedTypes.includes(fileType)) {
         var reader = new FileReader(); // Create a FileReader object
-
+        reader.readAsDataURL(file); // Read the selected file as a Data URL
         // Set up the FileReader onload event
         reader.onload = function () {
           var imgElement = imgElementPara;
           imgElement.src = reader.result; // Set the src attribute of the img tag to the selected image
+          resolve(reader.result);
         };
-
-        reader.readAsDataURL(file); // Read the selected file as a Data URL
       } else {
         prevImage.setAttribute("src", "#");
-        throw "Not a vaild file";
+        reader.onerror = (error) => reject(error);
       }
     }
   });
